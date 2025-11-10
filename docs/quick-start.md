@@ -8,7 +8,7 @@ After all dependencies are installed and configured there are several small step
 
 ## Configure EMS launcher
 
-The launcher (`EMS/ems-launcher.bat`) needs to be updated with the proper directories
+The launcher (`EMS4DC/ems-launcher.bat`) needs to be updated with the proper directories
 
 Open `ems-launcher.bat` with Notepad or any other text editor. Locate the following lines:
 
@@ -21,7 +21,7 @@ timeout /t 3 /nobreak >nul
 
 Modify the `"C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_1_EMS Data"` directory to match your set up.
 
-## Launching the EMS
+## Launching the EMS4DC
 
 If everything was configured properly the EMS can be launched via the `ems-launcher.bat` by double-clicking the file.
 

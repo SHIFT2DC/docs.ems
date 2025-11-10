@@ -40,14 +40,14 @@ mkdir "1_EMS"
 mkdir "1_1_EMS Data"
 cd "1_EMS"
 git clone https://github.com/SHIFT2DC/EMS.git
-cd "EMS"
+cd "EMS4DC"
 ```
 
 ## Install Dependencies
 
 ### Web-application dependencies
 
-With the terminal opened in `C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_EMS\EMS` install needed packages for web-application:
+With the terminal opened in `C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_EMS\EMS4DC` install needed packages for web-application:
 
 ```bash
 # Using npm
@@ -71,15 +71,15 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 Make sure to copy the environment variables from `.env.example` to `.env` before running the application.
 :::
 
-Those `.env` files can be found in `EMS/web-app/frontend/.env` and `EMS/web-app/backend/.env`
+Those `.env` files can be found in `EMS4DC/web-app/frontend/.env` and `EMS4DC/web-app/backend/.env`
 
-#### How to configure `VITE_BASE_URL` in `EMS/web-app/frontend/.env`
+#### How to configure `VITE_BASE_URL` in `EMS4DC/web-app/frontend/.env`
 
 The `VITE_BASE_URL` variable defines where the backend server is hosted. If the backend server is hosted locally then the variable should be set to `http://localhost:3001`
 
 ### Python virtual environment set up
 
-With terminal navigate to the `EMS/system-coordination` folder
+With terminal navigate to the `EMS4DC/system-coordination` folder
 
 Validate what version of Python are installed on the machine and create a Python virtual environment:
 
@@ -120,7 +120,7 @@ Make sure to check the installation directory of the PostgreSQL and the path to 
 :::
 
 :::warning
-Make sure to create a password for the database and then pass this password into the `EMS/web-app/backend/.env`
+Make sure to create a password for the database and then pass this password into the `EMS4DC/web-app/backend/.env`
 :::
 
 #### Creating tables in the database

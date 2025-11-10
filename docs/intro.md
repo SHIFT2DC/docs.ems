@@ -5,7 +5,7 @@ slug: /
 
 # Introduction
 
-Welcome to the documentation for Energy Management System (EMS) for SHIFT2DC Project. This guide will help to get started quickly and provide comprehensive reference material.
+Welcome to the documentation for EMS4DC, an energy management system (EMS) for DC systems developed as part of SHIFT2DC project. This guide will help to get started quickly and provide comprehensive reference material.
 
 ## Features
 
