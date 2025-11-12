@@ -39,7 +39,7 @@ mkdir "1_EMS"
 # Create a "1_1_EMS Data" folder
 mkdir "1_1_EMS Data"
 cd "1_EMS"
-git clone https://github.com/SHIFT2DC/EMS.git
+git clone https://github.com/SHIFT2DC/EMS4DC.git
 cd "EMS4DC"
 ```
 
@@ -63,71 +63,43 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 ```
 :::
 
+After the packages have been installed it is needed to install additional UI components:
+
+```bash
+npx shadcn@latest add accordion alert badge button card input label progress select separator sheet sidebar skeleton slider table tabs textarea toast tooltip
+```
+
 ## Configure other dependencies
-
-### `.env` environment variables configuration
-
-:::warning
-Make sure to copy the environment variables from `.env.example` to `.env` before running the application.
-:::
-
-Those `.env` files can be found in `EMS4DC/web-app/frontend/.env` and `EMS4DC/web-app/backend/.env`
-
-#### How to configure `VITE_BASE_URL` in `EMS4DC/web-app/frontend/.env`
-
-The `VITE_BASE_URL` variable defines where the backend server is hosted. If the backend server is hosted locally then the variable should be set to `http://localhost:3001`
-
-### Python virtual environment set up
-
-With terminal navigate to the `EMS4DC/system-coordination` folder
-
-Validate what version of Python are installed on the machine and create a Python virtual environment:
-
-```bash
-# List available Python Versions
-py -0
-
-# Create virtual environment with 3.12 version
-py -3.12 -m venv sys-coord
-
-# Install needed packages:
-py -m pip install -r requirements.txt
-```
-
-You can validate whether the virtual environment set up was Initialized correctly:
-
-```bash
-# Activate
-sys-coord\Scripts\activate
-
-# Verify 3.12 version is active
-python --version
-```
-
 ### Initialize database cluster
 
-Locate where PostgreSQL was installed on the machine. Usually the installation directory is the following: `C:\Program Files\PostgreSQL\16`
+Locate where PostgreSQL was installed on the machine. Usually the installation directory is the following: `C:\Program Files\PostgreSQL\16` and copy the path to the `initdb.exe` executable. For example, `C:\Program Files\PostgreSQL\16\bin`
 
 Open a new terminal and proceed with initialization:
 
 ```bash
-# Run the initialization of the cluster
-&"C:\Program Files\PostgreSQL\16\bin\initdb.exe" -D "C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_1_EMS Data"
+# Run the initialization of the cluster with your path to initdb.exe
+&"<YOUR\PATH\TO\POSTGRE>\initdb.exe" -D -W "C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_1_EMS Data"
 ```
+
+The `-W` option will prompt for a password in the terminal. This password must be remembered.
 
 :::info
 Make sure to check the installation directory of the PostgreSQL and the path to the `1_1_EMS Data` folder, so that the initialization is done correctly.
 :::
 
-:::warning
-Make sure to create a password for the database and then pass this password into the `EMS4DC/web-app/backend/.env`
-:::
+Now it is needed to start the PostgreSQL server to create tables for the system. For that, locate the `postgresql.conf` file which should be generated at the cluster initialization and can be found in the `1_1_EMS Data` folder. Open this file with any text editor and locate the line which says `#port = 5432`. Remove the hashtag and adjust the port to the needs. 
+
+Now, start the server with the following command:
+
+```bash
+&"<YOUR\PATH\TO\POSTGRE>\pg_ctl.exe" -D "<YOUR\PATH\TO\EMS Data>\1_1_EMS Data"
+```
 
 #### Creating tables in the database
 
 It is required to create tables in the initialized database cluster.
 
-Open the PSQL terminal, which was installed together with the PostgreSQL. This terminal may be located by default in `C:\Program Files\PostgreSQL\17\scripts\runpsql.bat`
+Open the PSQL terminal, which was installed together with the PostgreSQL. This terminal may be located by default in `C:\Program Files\PostgreSQL\16\scripts\runpsql.bat`
 
 In this terminal connect to the initialized cluster with the correct credentials.
 
@@ -174,4 +146,41 @@ CREATE TABLE "ems-outputs" (
 
 # Exit when done:
 \q
+```
+
+After this, the terminal can be closed.
+
+### `.env` environment variables configuration
+
+:::warning
+Make sure to copy the environment variables from `.env.example` to `.env` before running the application.
+:::
+
+Those `.env` files can be found in `EMS4DC/web-app/frontend/.env.example` and `EMS4DC/web-app/backend/.env.example`
+
+#### How to configure `VITE_BASE_URL` in `EMS4DC/web-app/frontend/.env`
+
+The `VITE_BASE_URL` variable defines where the backend server is hosted. If the backend server is hosted locally then the variable should be set to `http://localhost:3001`
+
+### Python virtual environment set up
+
+With terminal navigate to the `EMS4DC/system-coordination` folder
+
+Validate what version of Python are installed on the machine and create a Python virtual environment:
+
+```bash
+# List available Python Versions
+py -0
+
+# Create virtual environment with 3.12 version
+py -3.12 -m venv sys-coord
+
+# Activate the virtual environment
+sys-coord\Scripts\activate
+
+# Install needed packages:
+py -m pip install -r requirements.txt
+
+# Deactivate virtual environment
+deactivate
 ```

@@ -10,7 +10,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'EMS Docs',
+  title: 'EMS4DC Docs',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/16x16.png',
 
@@ -83,16 +83,16 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'EMS',
+        title: 'EMS4DC',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'SHIFT2DC Logo',
           src: 'img/Shift2DC_Color.png',
         },
         items: [
           
           // {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/SHIFT2DC/EMS',
+            href: 'https://github.com/SHIFT2DC/EMS4DC',
             label: 'GitHub',
             position: 'right',
           },

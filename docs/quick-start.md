@@ -21,6 +21,7 @@ timeout /t 3 /nobreak >nul
 
 Modify the `"C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_1_EMS Data"` directory to match your set up.
 
+
 ## Launching the EMS4DC
 
 If everything was configured properly the EMS can be launched via the `ems-launcher.bat` by double-clicking the file.
@@ -33,3 +34,7 @@ The launcher should verify if all prerequisites were installed and then it will 
 - Frontend Server
 
 When all 4 terminal are started, the EMS should be available in the browser at `http://localhost:5173`
+
+:::warning
+If the launcher gives the error that `ERROR: pg_ctl.exe not found in PATH`, then it is needed to add PostgreSQL installation path to the `Path` environment variable.
+:::
