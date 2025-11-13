@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Quick Start
+# Starting the application
 
 After all dependencies are installed and configured there are several small steps left to make the EMS running.
 
@@ -12,7 +12,7 @@ The launcher (`EMS4DC/ems-launcher.bat`) needs to be updated with the proper dir
 
 Open `ems-launcher.bat` with Notepad or any other text editor. Locate the following lines:
 
-```bash
+```batch
 :: Start PostgreSQL
 echo %BOLD%%BLUE%[1/4] Starting PostgreSQL server...%RESET%
 start "PostgreSQL Server" cmd /k "echo %MAGENTA%PostgreSQL Server%RESET% && pg_ctl.exe start -D "C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_1_EMS Data" && echo %GREEN%PostgreSQL started successfully!%RESET%"

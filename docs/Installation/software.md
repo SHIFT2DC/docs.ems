@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Installation
+# Software Installation
 
 Follow these steps to install and set up EMS locally.
 
@@ -33,7 +33,7 @@ Open the created folder and right click in the File Explorer to reveal the menu.
 
 In the opened terminal proceed with the following commands:
 
-```bash
+```powershell
 # Create a "1_EMS" folder
 mkdir "1_EMS"
 # Create a "1_1_EMS Data" folder
@@ -49,7 +49,7 @@ cd "EMS4DC"
 
 With the terminal opened in `C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_EMS\EMS4DC` install needed packages for web-application:
 
-```bash
+```powershell
 # Using npm
 cd web-app/frontend/
 npm install --verbose
@@ -58,14 +58,14 @@ npm install --verbose
 :::warning
 There is a probability that running scripts on your system is disabled. If such error is encountered then run the following command in the terminal and then enter `Y` to confirm the change:
 
-```bash
+```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 ```
 :::
 
 After the packages have been installed it is needed to install additional UI components:
 
-```bash
+```powershell
 npx shadcn@latest add accordion alert badge button card input label progress select separator sheet sidebar skeleton slider table tabs textarea toast tooltip
 ```
 
@@ -76,7 +76,7 @@ Locate where PostgreSQL was installed on the machine. Usually the installation d
 
 Open a new terminal and proceed with initialization:
 
-```bash
+```powershell
 # Run the initialization of the cluster with your path to initdb.exe
 &"<YOUR\PATH\TO\POSTGRE>\initdb.exe" -D -W "C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_1_EMS Data"
 ```
@@ -91,7 +91,7 @@ Now it is needed to start the PostgreSQL server to create tables for the system.
 
 Now, start the server with the following command:
 
-```bash
+```powershell
 &"<YOUR\PATH\TO\POSTGRE>\pg_ctl.exe" -D "<YOUR\PATH\TO\EMS Data>\1_1_EMS Data"
 ```
 
@@ -166,9 +166,9 @@ The `VITE_BASE_URL` variable defines where the backend server is hosted. If the 
 
 With terminal navigate to the `EMS4DC/system-coordination` folder
 
-Validate what version of Python are installed on the machine and create a Python virtual environment:
+Validate what versions of Python are installed on the machine and create a Python virtual environment:
 
-```bash
+```powershell
 # List available Python Versions
 py -0
 
