@@ -78,7 +78,7 @@ Open a new terminal and proceed with initialization:
 
 ```powershell
 # Run the initialization of the cluster with your path to initdb.exe
-&"<YOUR\PATH\TO\POSTGRE>\initdb.exe" -D -W "C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_1_EMS Data"
+&"<YOUR\PATH\TO\POSTGRE>\initdb.exe" -D "C:\Users\YOUR_USER\Documents\1_SHIFT2DC\1_1_EMS Data" -W
 ```
 
 The `-W` option will prompt for a password in the terminal. This password must be remembered.
@@ -92,7 +92,7 @@ Now it is needed to start the PostgreSQL server to create tables for the system.
 Now, start the server with the following command:
 
 ```powershell
-&"<YOUR\PATH\TO\POSTGRE>\pg_ctl.exe" -D "<YOUR\PATH\TO\EMS Data>\1_1_EMS Data"
+&"<YOUR\PATH\TO\POSTGRE>\pg_ctl.exe" start -D "<YOUR\PATH\TO\EMS Data>\1_1_EMS Data"
 ```
 
 #### Creating tables in the database
