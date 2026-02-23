@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Introduction/optimization" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Optimization | EMS4DC Docs</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://SHIFT2DC.github.io/docs.ems/img/shift2dc-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://SHIFT2DC.github.io/docs.ems/img/shift2dc-social-card.jpg"><meta data-rh="true" property="og:url" content="https://SHIFT2DC.github.io/docs.ems/Introduction/optimization"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Optimization | EMS4DC Docs"><meta data-rh="true" name="description" content="The optimization module implements a mixed-integer linear programming (MILP) formulation for energy system optimization using Pyomo as the mathematical modeling framework. The energy management problem is expressed through linear objective functions and constraints representing system operation, energy balances, and logical decisions, with both continuous and integer decision variables. The resulting MILP model is solved using the HiGHS optimization solver via its Python interface Highspy, providing efficient and reliable solutions for large-scale and time-coupled optimization problems. This architecture enables flexible model extension, solver interchangeability, and repeated execution for real-time or near-real-time energy optimization applications. At regular intervals, the optimization module provides power setpoints for energy assets based on the measured data."><meta data-rh="true" property="og:description" content="The optimization module implements a mixed-integer linear programming (MILP) formulation for energy system optimization using Pyomo as the mathematical modeling framework. The energy management problem is expressed through linear objective functions and constraints representing system operation, energy balances, and logical decisions, with both continuous and integer decision variables. The resulting MILP model is solved using the HiGHS optimization solver via its Python interface Highspy, providing efficient and reliable solutions for large-scale and time-coupled optimization problems. This architecture enables flexible model extension, solver interchangeability, and repeated execution for real-time or near-real-time energy optimization applications. At regular intervals, the optimization module provides power setpoints for energy assets based on the measured data."><link data-rh="true" rel="icon" href="/docs.ems/img/16x16.png"><link data-rh="true" rel="canonical" href="https://SHIFT2DC.github.io/docs.ems/Introduction/optimization"><link data-rh="true" rel="alternate" href="https://SHIFT2DC.github.io/docs.ems/Introduction/optimization" hreflang="en"><link data-rh="true" rel="alternate" href="https://SHIFT2DC.github.io/docs.ems/Introduction/optimization" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Optimization","item":"https://SHIFT2DC.github.io/docs.ems/Introduction/optimization"}]}</script><link rel="stylesheet" href="/docs.ems/assets/css/styles.67e093d2.css">
+<script src="/docs.ems/assets/js/runtime~main.4da0021f.js" defer="defer"></script>
+<script src="/docs.ems/assets/js/main.e096bab0.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/docs.ems/./img/Shift2DC_Color.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/docs.ems/"><div class="navbar__logo"><img src="/docs.ems/./img/Shift2DC_Color.png" alt="SHIFT2DC Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/docs.ems/./img/Shift2DC_Color.png" alt="SHIFT2DC Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">EMS4DC</b></a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/SHIFT2DC/EMS4DC" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/docs.ems/Introduction/intro"><span title="Introduction" class="categoryLinkLabel_W154">Introduction</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs.ems/Introduction/intro"><span title="Introduction" class="linkLabel_WmDU">Introduction</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs.ems/Introduction/optimization"><span title="Optimization" class="linkLabel_WmDU">Optimization</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs.ems/Introduction/forecasting"><span title="Power Forecasting" class="linkLabel_WmDU">Power Forecasting</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs.ems/Installation/software"><span title="Installation" class="categoryLinkLabel_W154">Installation</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs.ems/Usage/first_steps"><span title="Usage" class="categoryLinkLabel_W154">Usage</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs.ems/Developers/architecture"><span title="Developers" class="categoryLinkLabel_W154">Developers</span></a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/docs.ems/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Introduction</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Optimization</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Optimization</h1></header>
+<p>The optimization module implements a mixed-integer linear programming (MILP) formulation for energy system optimization using Pyomo as the mathematical modeling framework. The energy management problem is expressed through linear objective functions and constraints representing system operation, energy balances, and logical decisions, with both continuous and integer decision variables. The resulting MILP model is solved using the HiGHS optimization solver via its Python interface Highspy, providing efficient and reliable solutions for large-scale and time-coupled optimization problems. This architecture enables flexible model extension, solver interchangeability, and repeated execution for real-time or near-real-time energy optimization applications. At regular intervals, the optimization module provides power setpoints for energy assets based on the measured data.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="features">Features<a href="#features" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features" translate="no">​</a></h2>
+<ul>
+<li class="">
+<p><strong>7 Built-in Optimization Objectives</strong></p>
+<ul>
+<li class="">Maximize Self-Consumption</li>
+<li class="">Maximize EV Satisfaction</li>
+<li class="">Minimize Fossil Emissions</li>
+<li class="">Maximize Reliability</li>
+<li class="">BESS Lifetime Extension</li>
+<li class="">Peak Shaving / Grid Support</li>
+<li class="">Maximize Weighted Power Flow</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Multi-Asset Support</strong></p>
+<ul>
+<li class="">Multiple devices of the same type</li>
+<li class="">Automatic asset aggregation</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Comprehensive Validation</strong></p>
+<ul>
+<li class="">Automatic configuration validation</li>
+<li class="">Asset requirement checking</li>
+<li class="">Warning system for edge cases</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="supported-assets">Supported Assets<a href="#supported-assets" class="hash-link" aria-label="Direct link to Supported Assets" title="Direct link to Supported Assets" translate="no">​</a></h2>
+<table><thead><tr><th>Supported Type</th><th>Description</th></tr></thead><tbody><tr><td><strong>Solar PV</strong></td><td>Electrical plant with photovoltaic panels</td></tr><tr><td><strong>Battery Storage</strong></td><td>Battery Energy Storage System (BESS)</td></tr><tr><td><strong>Load</strong></td><td>Any load which can be curtailed/shedded during the optimization process. For example, lighting during the day</td></tr><tr><td><strong>Critical Load</strong></td><td>The load which must not be curtailed during the optimization process. For example, server&#x27;s power supply.</td></tr><tr><td><strong>Unidirectional EV charger</strong></td><td>EV chargers which support only one way of energy flow (from grid to car)</td></tr><tr><td><strong>Bidirectional EV charger</strong></td><td>EV charger that support bidirectional power flow, i.e. Vehicle to Grid (V2G) chargers</td></tr><tr><td><strong>Wind Generator</strong></td><td>Wind generator</td></tr><tr><td><strong>Active Front End</strong></td><td>Indicates the asset which connects the site to the main electrical grid.</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="supported-objectives">Supported Objectives<a href="#supported-objectives" class="hash-link" aria-label="Direct link to Supported Objectives" title="Direct link to Supported Objectives" translate="no">​</a></h2>
+<table><thead><tr><th>Objective</th><th>Code</th><th>Best For</th></tr></thead><tbody><tr><td>Maximize Self-Consumption</td><td><code>maxSelfConsumption</code></td><td>Solar/wind sites wanting to minimize grid import</td></tr><tr><td>Maximize EV Satisfaction</td><td><code>maxEVSatisfaction</code></td><td>EV charging stations, fleet operations</td></tr><tr><td>Minimize Fossil Emissions</td><td><code>minFossilEmissions</code></td><td>Sustainability goals, carbon reduction</td></tr><tr><td>Maximize Reliability</td><td><code>maxReliability</code></td><td>Critical infrastructure, hospitals, data centers</td></tr><tr><td>BESS Lifetime Extension</td><td><code>lifeExtentBESS</code></td><td>Expensive batteries, long-term cost optimization</td></tr><tr><td>Peak Shaving</td><td><code>peakShaving</code></td><td>Demand charge reduction, grid services</td></tr><tr><td>Maximize Weighted Power Flow</td><td><code>maxWeightPowerFlow</code></td><td>Maximize weighted power flows, prioritizing: PV -&gt; Loads -&gt; EVs -&gt; GridService -&gt; BESS -&gt; Grid Import -&gt; V2G</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="maximize-self-consumption-maxselfconsumption">Maximize Self-Consumption (<code>maxSelfConsumption</code>)<a href="#maximize-self-consumption-maxselfconsumption" class="hash-link" aria-label="Direct link to maximize-self-consumption-maxselfconsumption" title="Direct link to maximize-self-consumption-maxselfconsumption" translate="no">​</a></h3>
+<p><strong>Goal:</strong> Maximize the use of locally generated renewable energy</p>
+<p><strong>Strategy:</strong></p>
+<ul>
+<li class="">Prioritize PV and wind power usage</li>
+<li class="">Store excess renewable energy in BESS</li>
+<li class="">Minimize grid import</li>
+<li class="">Prefer local consumption over export</li>
+</ul>
+<p><strong>Required Assets:</strong></p>
+<ul>
+<li class="">At least one AFE (Active Front End)</li>
+<li class="">At least one renewable source (PV or WIND)</li>
+</ul>
+<p><strong>Optimal For:</strong></p>
+<ul>
+<li class="">Sites with significant renewable generation</li>
+<li class="">Reducing grid dependency</li>
+<li class="">Lowering energy costs</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="maximize-ev-satisfaction-maxevsatisfaction">Maximize EV Satisfaction (<code>maxEVSatisfaction</code>)<a href="#maximize-ev-satisfaction-maxevsatisfaction" class="hash-link" aria-label="Direct link to maximize-ev-satisfaction-maxevsatisfaction" title="Direct link to maximize-ev-satisfaction-maxevsatisfaction" translate="no">​</a></h3>
+<p><strong>Goal:</strong> Maximize EV charging to meet departure requirements</p>
+<p><strong>Strategy:</strong></p>
+<ul>
+<li class="">Prioritize EV charging above other loads</li>
+<li class="">Ensure vehicles reach target SoC</li>
+<li class="">Minimize V2G discharge</li>
+<li class="">Use all available energy sources</li>
+</ul>
+<p><strong>Required Assets:</strong></p>
+<ul>
+<li class="">At least one AFE</li>
+<li class="">At least one EV charger (UNI_EV or BI_EV)</li>
+</ul>
+<p><strong>Optimal For:</strong></p>
+<ul>
+<li class="">Fleet charging operations</li>
+<li class="">EV charging stations</li>
+<li class="">Sites where EV charging is critical</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="minimize-fossil-emissions-minfossilemissions">Minimize Fossil Emissions (<code>minFossilEmissions</code>)<a href="#minimize-fossil-emissions-minfossilemissions" class="hash-link" aria-label="Direct link to minimize-fossil-emissions-minfossilemissions" title="Direct link to minimize-fossil-emissions-minfossilemissions" translate="no">​</a></h3>
+<p><strong>Goal:</strong> Minimize carbon footprint by reducing fossil fuel usage</p>
+<p><strong>Strategy:</strong></p>
+<ul>
+<li class="">Maximize renewable energy usage</li>
+<li class="">Minimize grid import (assumed fossil-based)</li>
+<li class="">Store renewables in BESS</li>
+<li class="">Allow controlled load shedding if necessary</li>
+</ul>
+<p><strong>Required Assets:</strong></p>
+<ul>
+<li class="">At least one AFE</li>
+<li class="">At least one renewable source (PV or WIND)</li>
+</ul>
+<p><strong>Optimal For:</strong></p>
+<ul>
+<li class="">Sustainability-focused operations</li>
+<li class="">Carbon-neutral goals</li>
+<li class="">Green energy initiatives</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="maximize-reliability-maxreliability">Maximize Reliability (<code>maxReliability</code>)<a href="#maximize-reliability-maxreliability" class="hash-link" aria-label="Direct link to maximize-reliability-maxreliability" title="Direct link to maximize-reliability-maxreliability" translate="no">​</a></h3>
+<p><strong>Goal:</strong> Ensure continuous power supply to critical loads</p>
+<p><strong>Strategy:</strong></p>
+<ul>
+<li class="">Maintain high BESS charge for backup</li>
+<li class="">Prioritize critical loads</li>
+<li class="">Keep reserve capacity</li>
+<li class="">Minimize grid dependence</li>
+</ul>
+<p><strong>Required Assets:</strong></p>
+<ul>
+<li class="">At least one AFE</li>
+<li class="">At least one BESS (for backup power)</li>
+</ul>
+<p><strong>Optimal For:</strong></p>
+<ul>
+<li class="">Data centers</li>
+<li class="">Hospitals</li>
+<li class="">Critical infrastructure</li>
+<li class="">Sites requiring high uptime</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="bess-lifetime-extension-lifeextentbess">BESS Lifetime Extension (<code>lifeExtentBESS</code>)<a href="#bess-lifetime-extension-lifeextentbess" class="hash-link" aria-label="Direct link to bess-lifetime-extension-lifeextentbess" title="Direct link to bess-lifetime-extension-lifeextentbess" translate="no">​</a></h3>
+<p><strong>Goal:</strong> Extend battery life by minimizing cycling and stress</p>
+<p><strong>Strategy:</strong></p>
+<ul>
+<li class="">Minimize charge/discharge cycles</li>
+<li class="">Keep SoC in optimal range (40-70%)</li>
+<li class="">Avoid deep discharge</li>
+<li class="">Reduce power throughput</li>
+<li class="">Use grid and V2G instead of BESS when possible</li>
+</ul>
+<p><strong>Required Assets:</strong></p>
+<ul>
+<li class="">At least one AFE</li>
+<li class="">At least one BESS</li>
+</ul>
+<p><strong>Optimal For:</strong></p>
+<ul>
+<li class="">Expensive battery systems</li>
+<li class="">Long-term cost optimization</li>
+<li class="">Systems with limited battery replacement budget</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="peak-shaving--grid-support-peakshaving">Peak Shaving / Grid Support (<code>peakShaving</code>)<a href="#peak-shaving--grid-support-peakshaving" class="hash-link" aria-label="Direct link to peak-shaving--grid-support-peakshaving" title="Direct link to peak-shaving--grid-support-peakshaving" translate="no">​</a></h3>
+<p><strong>Goal:</strong> Reduce peak demand and provide grid services</p>
+<p><strong>Strategy:</strong></p>
+<ul>
+<li class="">Reduce peak grid import</li>
+<li class="">Provide grid services when requested</li>
+<li class="">Use BESS to flatten load profile</li>
+<li class="">Export excess renewable energy</li>
+</ul>
+<p><strong>Required Assets:</strong></p>
+<ul>
+<li class="">At least one AFE</li>
+<li class="">At least one BESS</li>
+</ul>
+<p><strong>Optimal For:</strong></p>
+<ul>
+<li class="">Demand charge reduction</li>
+<li class="">Grid service revenue</li>
+<li class="">Utility partnerships</li>
+<li class="">Load balancing applications</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="choosing-the-right-objective">Choosing the Right Objective<a href="#choosing-the-right-objective" class="hash-link" aria-label="Direct link to Choosing the Right Objective" title="Direct link to Choosing the Right Objective" translate="no">​</a></h2>
+<p><strong>For renewable energy sites:</strong></p>
+<ul>
+<li class="">Use <code>maxSelfConsumption</code> to maximize on-site renewable usage</li>
+<li class="">Use <code>minFossilEmissions</code> to minimize carbon footprint</li>
+</ul>
+<p><strong>For EV charging:</strong></p>
+<ul>
+<li class="">Use <code>maxEVSatisfaction</code> to prioritize vehicle charging</li>
+</ul>
+<p><strong>For critical infrastructure:</strong></p>
+<ul>
+<li class="">Use <code>maxReliability</code> to ensure backup power</li>
+<li class="">Use <code>peakShaving</code> to reduce demand charges</li>
+</ul>
+<p><strong>For battery health:</strong></p>
+<ul>
+<li class="">Use <code>lifeExtentBESS</code> to minimize battery degradation</li>
+<li class="">Best for expensive or hard-to-replace batteries</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="maximize-weighted-power-flow--maxweightpowerflow">Maximize Weighted Power Flow  (<code>maxWeightPowerFlow</code>)<a href="#maximize-weighted-power-flow--maxweightpowerflow" class="hash-link" aria-label="Direct link to maximize-weighted-power-flow--maxweightpowerflow" title="Direct link to maximize-weighted-power-flow--maxweightpowerflow" translate="no">​</a></h3>
+<p>Maximize weighted power flows, prioritizing: PV -&gt; Loads -&gt; EVs -&gt; GridService -&gt; BESS -&gt; Grid Import -&gt; V2G</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/SHIFT2DC.github.io/docs.ems/tree/main/docs/Introduction/optimization.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs.ems/Introduction/intro"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Introduction</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs.ems/Introduction/forecasting"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Power Forecasting</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#features" class="table-of-contents__link toc-highlight">Features</a></li><li><a href="#supported-assets" class="table-of-contents__link toc-highlight">Supported Assets</a></li><li><a href="#supported-objectives" class="table-of-contents__link toc-highlight">Supported Objectives</a><ul><li><a href="#maximize-self-consumption-maxselfconsumption" class="table-of-contents__link toc-highlight">Maximize Self-Consumption (<code>maxSelfConsumption</code>)</a></li><li><a href="#maximize-ev-satisfaction-maxevsatisfaction" class="table-of-contents__link toc-highlight">Maximize EV Satisfaction (<code>maxEVSatisfaction</code>)</a></li><li><a href="#minimize-fossil-emissions-minfossilemissions" class="table-of-contents__link toc-highlight">Minimize Fossil Emissions (<code>minFossilEmissions</code>)</a></li><li><a href="#maximize-reliability-maxreliability" class="table-of-contents__link toc-highlight">Maximize Reliability (<code>maxReliability</code>)</a></li><li><a href="#bess-lifetime-extension-lifeextentbess" class="table-of-contents__link toc-highlight">BESS Lifetime Extension (<code>lifeExtentBESS</code>)</a></li><li><a href="#peak-shaving--grid-support-peakshaving" class="table-of-contents__link toc-highlight">Peak Shaving / Grid Support (<code>peakShaving</code>)</a></li></ul></li><li><a href="#choosing-the-right-objective" class="table-of-contents__link toc-highlight">Choosing the Right Objective</a><ul><li><a href="#maximize-weighted-power-flow--maxweightpowerflow" class="table-of-contents__link toc-highlight">Maximize Weighted Power Flow  (<code>maxWeightPowerFlow</code>)</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs.ems/">Docs</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://shift2dc.eu/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Main Project Page<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://www.linkedin.com/company/shift2dc/" target="_blank" rel="noopener noreferrer" class="footer__link-item">LinkedIN<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://x.com/Shift2DC_2023" target="_blank" rel="noopener noreferrer" class="footer__link-item">X<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://zenodo.org/communities/shift2dc/records?q=&amp;l=list&amp;p=1&amp;s=10&amp;sort=newest" target="_blank" rel="noopener noreferrer" class="footer__link-item">Zenodo<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/SHIFT2DC" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Energy Management System for DC | SHIFT2DC</div></div></div></footer></div>
+</body>
+</html>
