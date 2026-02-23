@@ -14,7 +14,7 @@ Before you begin, ensure you have the following installed:
 
 - Node.js v22.12.0 LTS (Versions higher than v22 also can be installed, however the EMS was tested on this specific release of Node.js)
 - PostgreSQL v16 (During the installation make sure that PSQL terminal is installed)
-- Python v3.12 (This exact release of Python is needed because of the availability of CPLEX Python package for optimization)
+- Python v3.12
 - Git
 
 ### Hardware
@@ -66,7 +66,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 After the packages have been installed it is needed to install additional UI components:
 
 ```powershell
-npx shadcn@latest add accordion alert badge button card input label progress select separator sheet sidebar skeleton slider table tabs textarea toast tooltip
+npx shadcn@latest add accordion alert badge button calendar card dialog dropdown-menu input label popover progress select separator sheet sidebar skeleton slider table tabs textarea toast tooltip @react-bits/FloatingLines-JS-TW
 ```
 
 ## Configure other dependencies
@@ -106,13 +106,34 @@ In this terminal connect to the initialized cluster with the correct credentials
 When successfully connected proceed with the following commands in the terminal:
 
 ```sql
-# Create a new database:
+-- Create a new database:
 CREATE DATABASE "ems-db";
 
-# Connect to the newly created database:
+-- Connect to the newly created database:
 \c "ems-db"
 
-# Create table for measurements:
+-- Create table for asset_events
+CREATE TABLE IF NOT EXISTS asset_events (
+    id SERIAL PRIMARY KEY,
+    asset_id INTEGER REFERENCES assets(id) ON DELETE CASCADE,
+    event_type VARCHAR(50) NOT NULL,         -- 'created', 'updated', 'deleted'
+    event_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE asset_events IS 'Audit trail for all asset-related events (create, update, delete)';
+
+-- Create table for assets
+CREATE TABLE IF NOT EXISTS assets (
+    id SERIAL PRIMARY KEY,
+    asset_key VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+COMMENT ON TABLE assets IS 'Stores basic information for all site assets';
+
+-- Create table for measurements:
 CREATE TABLE measurements (
     id BIGSERIAL PRIMARY KEY,
     measurement_id INT NOT NULL,
@@ -120,10 +141,11 @@ CREATE TABLE measurements (
     parameter TEXT NOT NULL,       
     value DOUBLE PRECISION NOT NULL,
     unit TEXT NOT NULL,            
-    quality TEXT
+    quality TEXT,
+    asset_key VARCHAR(50) UNIQUE NOT NULL
 );
 
-# Create table for optimization inputs and outputs:
+-- Create table for optimization inputs and outputs:
 CREATE TABLE "ems-inputs" (
     id BIGSERIAL PRIMARY KEY,
     input_id INT NOT NULL,
@@ -143,6 +165,153 @@ CREATE TABLE "ems-outputs" (
     unit TEXT NOT NULL,            
     quality TEXT
 );
+
+CREATE TABLE IF NOT EXISTS forecasts (
+    id SERIAL PRIMARY KEY,
+    asset_key VARCHAR(50) NOT NULL,
+    forecast_timestamp TIMESTAMP NOT NULL,  -- When the forecast was generated
+    horizon_timestamp TIMESTAMP NOT NULL,   -- The time point being forecasted
+    predicted_power FLOAT NOT NULL,         -- Forecasted power in Watts
+    confidence_lower FLOAT,                 -- Lower bound of confidence interval
+    confidence_upper FLOAT,                 -- Upper bound of confidence interval
+    model_version VARCHAR(50),              -- Model version used for tracking
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_asset FOREIGN KEY (asset_key) 
+        REFERENCES assets(asset_key) ON DELETE CASCADE,
+    CONSTRAINT unique_forecast UNIQUE (asset_key, forecast_timestamp, horizon_timestamp)
+);
+
+-- Index for faster queries
+CREATE INDEX IF NOT EXISTS idx_forecasts_asset_horizon 
+    ON forecasts(asset_key, horizon_timestamp);
+
+CREATE INDEX IF NOT EXISTS idx_forecasts_timestamp 
+    ON forecasts(forecast_timestamp);
+
+-- Table to track model metadata and training history
+CREATE TABLE IF NOT EXISTS model_metadata (
+    id SERIAL PRIMARY KEY,
+    asset_key VARCHAR(50) NOT NULL,
+    model_version VARCHAR(50) NOT NULL,
+    training_start_date TIMESTAMP NOT NULL,
+    training_end_date TIMESTAMP NOT NULL,
+    samples_count INTEGER NOT NULL,
+    model_type VARCHAR(50) NOT NULL,       -- e.g., 'ARIMA', 'Prophet', 'LSTM'
+    model_params JSONB,                     -- Store hyperparameters
+    performance_metrics JSONB,              -- MAE, RMSE, etc.
+    is_active BOOLEAN DEFAULT TRUE,
+    trained_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_model_asset FOREIGN KEY (asset_key) 
+        REFERENCES assets(asset_key) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_model_metadata_asset 
+    ON model_metadata(asset_key, is_active);
+
+-- Table to track data quality and readiness for forecasting
+CREATE TABLE IF NOT EXISTS forecast_readiness (
+    id SERIAL PRIMARY KEY,
+    asset_key VARCHAR(50) UNIQUE NOT NULL,
+    total_samples INTEGER DEFAULT 0,
+    first_measurement TIMESTAMP,
+    last_measurement TIMESTAMP,
+    data_coverage_pct FLOAT,               -- Percentage of expected data points present
+    min_samples_required INTEGER DEFAULT 672,
+    is_ready_for_forecast BOOLEAN DEFAULT FALSE,
+    last_checked TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_readiness_asset FOREIGN KEY (asset_key) 
+        REFERENCES assets(asset_key) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_readiness_ready 
+    ON forecast_readiness(is_ready_for_forecast);
+
+COMMENT ON TABLE forecasts IS 'Stores the latest 12-hour power forecasts for all active assets';
+COMMENT ON TABLE model_metadata IS 'Tracks trained models and their performance metrics';
+COMMENT ON TABLE forecast_readiness IS 'Monitors whether assets have sufficient data for forecasting';
+
+-- Main metrics summary table
+CREATE TABLE IF NOT EXISTS metrics_summary (
+        id SERIAL PRIMARY KEY,
+        period_start TIMESTAMP NOT NULL,
+        period_end TIMESTAMP NOT NULL,
+        calculation_time TIMESTAMP NOT NULL,
+        metric_category VARCHAR(50) NOT NULL,
+        metrics_json JSONB NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(period_start, period_end, metric_category)
+    );
+    
+    CREATE INDEX IF NOT EXISTS idx_metrics_summary_period 
+    ON metrics_summary(period_start, period_end);
+    
+    CREATE INDEX IF NOT EXISTS idx_metrics_summary_category 
+    ON metrics_summary(metric_category);
+
+-- Asset-specific metrics table
+CREATE TABLE IF NOT EXISTS asset_metrics (
+        id SERIAL PRIMARY KEY,
+        period_start TIMESTAMP NOT NULL,
+        period_end TIMESTAMP NOT NULL,
+        asset_key VARCHAR(50) NOT NULL,
+        asset_type VARCHAR(50) NOT NULL,
+        metric_name VARCHAR(100) NOT NULL,
+        metric_value DOUBLE PRECISION,
+        metric_unit VARCHAR(20),
+        calculation_time TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(period_start, period_end, asset_key, metric_name)
+    );
+    
+    CREATE INDEX IF NOT EXISTS idx_asset_metrics_period 
+    ON asset_metrics(period_start, period_end);
+    
+    CREATE INDEX IF NOT EXISTS idx_asset_metrics_asset 
+    ON asset_metrics(asset_key);
+
+-- Time-series aggregated metrics
+CREATE TABLE IF NOT EXISTS metrics_timeseries (
+        id SERIAL PRIMARY KEY,
+        timestamp TIMESTAMP NOT NULL,
+        asset_key VARCHAR(50),
+        parameter VARCHAR(100) NOT NULL,
+        aggregated_value DOUBLE PRECISION,
+        aggregation_type VARCHAR(20) NOT NULL,
+        aggregation_interval VARCHAR(10) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(timestamp, asset_key, parameter, aggregation_type, aggregation_interval)
+    );
+    
+    CREATE INDEX IF NOT EXISTS idx_metrics_timeseries_timestamp 
+    ON metrics_timeseries(timestamp);
+    
+    CREATE INDEX IF NOT EXISTS idx_metrics_timeseries_asset_param 
+    ON metrics_timeseries(asset_key, parameter);
+
+-- Users table
+CREATE TABLE users (
+  id          SERIAL PRIMARY KEY,
+  username    VARCHAR(100) UNIQUE NOT NULL,
+  password    TEXT NOT NULL,               -- bcrypt hash
+  role        VARCHAR(20) NOT NULL DEFAULT 'guest'
+                CHECK (role IN ('maintainer', 'guest')),
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Session store (used by connect-pg-simple)
+CREATE TABLE session (
+  sid    VARCHAR NOT NULL COLLATE "default" PRIMARY KEY,
+  sess   JSON    NOT NULL,
+  expire TIMESTAMPTZ NOT NULL
+);
+CREATE INDEX ON session (expire);
+
+-- Seed a first maintainer account
+INSERT INTO users (username, password, role)
+VALUES ('admin', '$2b$12$KyMHN3/33VrD1hiieGV7juJUiG5XBi1.d354cK4Lw2mitpVEvK/t.', 'maintainer');
 
 # Exit when done:
 \q
@@ -164,7 +333,7 @@ The `VITE_BASE_URL` variable defines where the backend server is hosted. If the 
 
 ### Python virtual environment set up
 
-With terminal navigate to the `EMS4DC/system-coordination` folder
+With terminal navigate to the `EMS4DC/core` folder
 
 Validate what versions of Python are installed on the machine and create a Python virtual environment:
 
@@ -173,10 +342,10 @@ Validate what versions of Python are installed on the machine and create a Pytho
 py -0
 
 # Create virtual environment with 3.12 version
-py -3.12 -m venv sys-coord
+py -3.12 -m venv core-venv
 
 # Activate the virtual environment
-sys-coord\Scripts\activate
+core-venv\Scripts\activate
 
 # Install needed packages:
 py -m pip install -r requirements.txt

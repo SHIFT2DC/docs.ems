@@ -13,7 +13,7 @@ const config = {
   title: 'EMS4DC Docs',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/16x16.png',
-
+  plugins: [require.resolve('docusaurus-plugin-image-zoom')],
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
@@ -30,7 +30,7 @@ const config = {
   organizationName: 'SHIFT2DC', // Usually your GitHub org/user name.
   projectName: 'docs.ems', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'throw', // or 'warn'
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -86,7 +86,7 @@ const config = {
         title: 'EMS4DC',
         logo: {
           alt: 'SHIFT2DC Logo',
-          src: 'img/Shift2DC_Color.png',
+          src: './img/Shift2DC_Color.png',
         },
         items: [
           
@@ -141,13 +141,23 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Energy Management System | SHIFT2DC`,
+        copyright: `Copyright © ${new Date().getFullYear()} Energy Management System for DC | SHIFT2DC`,
       },
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.vsDark,
         additionalLanguages: ['powershell', 'batch'],
       },
+      zoom: {
+      selector: '.markdown :not(em) > img',
+      background: {
+          light: 'rgb(255, 255, 255)',
+          dark: 'rgb(50, 50, 50)'
+      },
+      config: {
+        // options you can specify via https://github.com/francoischalifour/medium-zoom#usage
+      }
+      }
     }),
 };
 
