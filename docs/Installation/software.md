@@ -66,7 +66,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 After the packages have been installed it is needed to install additional UI components:
 
 ```powershell
-npx shadcn@latest add accordion alert badge button calendar card dialog dropdown-menu input label popover progress select separator sheet sidebar skeleton slider table tabs textarea toast tooltip @react-bits/FloatingLines-JS-TW
+npx shadcn@latest add accordion alert badge button calendar card dialog dropdown-menu input label popover progress select separator sheet sidebar skeleton slider table tabs textarea toast tooltip
 ```
 
 ## Configure other dependencies

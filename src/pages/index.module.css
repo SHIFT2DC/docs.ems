@@ -102,7 +102,7 @@
 /* Title */
 .heroTitle {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(4rem, 12vw, 8.5rem);
+  font-size: clamp(2.5rem, 10vw, 8.5rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.03em;
@@ -121,7 +121,7 @@
 
 /* Subtitle */
 .heroSubtitle {
-  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-size: clamp(0.9rem, 3.5vw, 1.15rem);
   font-weight: 300;
   line-height: 1.7;
   color: #e2e5e9;
@@ -482,4 +482,26 @@
   gap: 0.75rem;
   justify-content: center;
   margin-top: 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .heroContent {
+    padding: 0 1.25rem;
+    gap: 1.1rem;
+  }
+
+  .heroCta {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .statStrip {
+    gap: 0 1.5rem;
+  }
 }
