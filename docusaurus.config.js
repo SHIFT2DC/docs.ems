@@ -146,7 +146,7 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.vsDark,
-        additionalLanguages: ['powershell', 'batch'],
+        additionalLanguages: ['powershell', 'batch', 'docker'],
       },
       zoom: {
       selector: '.markdown :not(em) > img',

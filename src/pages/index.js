@@ -39,18 +39,18 @@ const FEATURES = [
     description:
       'Mixed-Integer Linear Programming engine dispatches batteries, generators, and flexible loads to maximize self-sufficiency or emissions across each scheduling horizon.',
   },
-  // {
-  //   icon: (
-  //     <svg fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24" className={styles.featureIcon}>
-  //       <path strokeLinecap="round" strokeLinejoin="round"
-  //         d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.281m5.94 2.28l-2.28 5.941" />
-  //     </svg>
-  //   ),
-  //   label: 'FORECASTING',
-  //   title: 'Predictive Analytics',
-  //   description:
-  //     'Time-series models produce load, generation, and price forecasts that feed directly into the optimizer, enabling proactive rather than reactive control.',
-  // },
+  {
+    icon: (
+      <svg fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24" className={styles.featureIcon}>
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.281m5.94 2.28l-2.28 5.941" />
+      </svg>
+    ),
+    label: 'FORECASTING',
+    title: 'Extensible Forecast Engine',
+    description:
+      'A model-agnostic forecasting layer ships with SMA, Persistence, and Prophet baselines. Each model follows a common interface so additional algorithms can be plugged in without touching the optimizer.',
+  },
   {
     icon: (
       <svg fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24" className={styles.featureIcon}>
@@ -74,6 +74,18 @@ const FEATURES = [
     title: 'Local Authentication',
     description:
       'Role-based access control with locally managed credentials — no cloud dependency. Operators and admins get scoped permissions without external identity providers.',
+  },
+  {
+    icon: (
+      <svg fill="none" stroke="currentColor" strokeWidth={1.6} viewBox="0 0 24 24" className={styles.featureIcon}>
+        <path strokeLinecap="round" strokeLinejoin="round"
+          d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+      </svg>
+    ),
+    label: 'DEPLOYMENT',
+    title: 'Docker Containerisation',
+    description:
+      'Every EMS service — API, optimizer, forecaster, and database — runs in its own Docker container, orchestrated via Compose. Spin up the full stack on any Linux host with a single command, and scale or replace individual services independently.',
   },
 ];
 
