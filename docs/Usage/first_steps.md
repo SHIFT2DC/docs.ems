@@ -57,11 +57,11 @@ The `Modbus Communication Settings` section allows you to specify the registers 
 | Unidirectional EV charger | POWER | Power of the EV charger | Watts |
 | Unidirectional EV charger | SoC | SoC of the car connected to the unidirectional EV charger in percent | % |
 | Unidirectional EV charger | CAR_CAP | Capacity of the car connected to the unidirectional EV charger  | Watt-Hours |
-| Unidirectional EV charger | CAR_MAX_POWER | The maximum power the car can accept | Watts |
+| Unidirectional EV charger | CAR_MAX_P | The maximum power the car can accept | Watts |
 | Bidirectional EV charger | POWER | Power of the bidirectional EV charger | Watts |
 | Bidirectional EV charger | SoC | SoC of the car connected to the bidirectional EV charger in percent | % |
 | Bidirectional EV charger | CAR_CAP | Capacity of the battery of the car connected to the bidirectional EV charger | Watt-Hours |
-| Bidirectional EV charger | CAR_MAX_POWER | Maximum power the car connected to the bidirectional EV charger can provide/accept | Watts |
+| Bidirectional EV charger | CAR_MAX_P | Maximum power the car connected to the bidirectional EV charger can provide/accept | Watts |
 | Bidirectional EV charger | CAR_AVBL | Parameter which indicates if the car can discharge at the moment: `1` if the car can provide power, `0` if not | - |
 | Bidirectional EV charger | CAR_ARRIVAL | SoC of the car at the moment of arrival | % |
 
